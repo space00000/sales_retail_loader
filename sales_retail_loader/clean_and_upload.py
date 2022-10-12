@@ -1,5 +1,5 @@
-from clean_functions import *
-from sql_functions import *
+from sales_retail_loader.clean_functions import *
+from sales_retail_loader.sql_functions import *
 
 def my_menu():
     print()

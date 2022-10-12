@@ -1,7 +1,7 @@
 #Modules and connection
 
-import clean_functions
-from clean_functions import *
+import sales_retail_loader.clean_functions as clean_functions
+from sales_retail_loader.clean_functions import *
 from sqlalchemy import create_engine
 from sqlite3 import connect
 
