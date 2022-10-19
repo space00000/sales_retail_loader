@@ -1,5 +1,6 @@
 from sales_retail_loader.clean_functions import *
-from sales_retail_loader.sql_functions import *
+from sql_functions import *
+from sales_disti_loader.clean_disti import *
 
 def my_menu():
     print()
@@ -16,6 +17,8 @@ def my_menu():
     print("(7) Limpiar y subir PcFactory")
     print("(8) Limpiar y subir Ripley")
     print("(9) Limpiar y subir Walmart")
+    print("(10) Limpiar y subir Intcomex")
+    print("(11) Sorpresa del programador")
     print("(0) Salir")
     print()
     choice = int(input("Ingresa tu opción: "))
@@ -24,31 +27,36 @@ def my_menu():
     while (choice != 0):
         if choice == 1:
             clean_abc()
-            upload()
+            upload_retail()
         elif choice == 2:
             clean_eshop()
-            upload()
+            upload_retail()
         elif choice == 3:
             clean_falabella()
-            upload()
+            upload_retail()
         elif choice == 4:
             clean_hites()
-            upload()
+            upload_retail()
         elif choice == 5:
             clean_lapolar()
-            upload()
+            upload_retail()
         elif choice == 6:
             clean_paris()
-            upload()
+            upload_retail()
         elif choice == 7:
             clean_pcfactory()
-            upload()
+            upload_retail()
         elif choice == 8:
             clean_ripley()
-            upload()
+            upload_retail()
         elif choice == 9:
             clean_walmart()
-            upload()
+            upload_retail()
+        elif choice == 10:
+            clean_intcomex()
+            upload_disti()
+        elif choice == 11:
+            print("elegiste 11 chupalo entonce xD")
         else:
             print("Favor ingresar un número")
         choice = int(input("Si quieres salir presiona 0 o selecciona otra opción: "))
