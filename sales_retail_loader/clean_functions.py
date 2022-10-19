@@ -7,6 +7,18 @@ from datetime import timedelta
 import psycopg2
 import os
 import re
+import psycopg2
+
+# Connection to database
+
+connection = psycopg2.connect(
+    host='localhost',
+    database='asus_db',
+    user='postgres',
+    password='GitsyLipsy6853',
+    port='5432'
+)
+
 
 #Global variables
 
@@ -46,14 +58,6 @@ database_path_pcfactorystock = os.path.join(retail_data_path, 'STOCK PCFACTORY.x
 database_path_walmart = os.path.join(retail_data_path, 'WALMART.xlsx')
 
 #SQL Account table to look for account id
-
-connection = psycopg2.connect(
-    host='localhost',
-    database='asus_db',
-    user='postgres',
-    password='GitsyLipsy6853',
-    port='5432'
-)
 
 sql_command = """ SELECT * FROM account"""
 
@@ -820,3 +824,6 @@ def clean_walmart():
     print('Limpieza realizada!')
 
     connection.close();
+
+clean_abc()
+print(df)

@@ -5,18 +5,8 @@ import sales_disti_loader.clean_disti as clean_disti_functions
 from sqlalchemy import create_engine
 from sqlite3 import connect
 import psycopg2
-
-# Open a database cursor
-
-connection = psycopg2.connect(
-    host='localhost',
-    database='asus_db',
-    user='postgres',
-    password='GitsyLipsy6853',
-    port='5432'
-)
-
-engine = create_engine('postgresql://postgres:GitsyLipsy6853@localhost:5432/asus_db')
+from parameters import connection
+from parameters import engine
 
 def upload_retail():
 
