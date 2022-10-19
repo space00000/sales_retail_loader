@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from sales_retail_loader.clean_functions import *
 from sql_functions import *
 from sales_disti_loader.clean_disti import *
@@ -18,7 +19,8 @@ def my_menu():
     print("(8) Limpiar y subir Ripley")
     print("(9) Limpiar y subir Walmart")
     print("(10) Limpiar y subir Intcomex")
-    print("(11) Sorpresa del programador")
+    print("(11) Limpiar y subir Ingram")
+    print("(12) Limpiar y subir Nexsys")
     print("(0) Salir")
     print()
     choice = int(input("Ingresa tu opción: "))
@@ -56,7 +58,11 @@ def my_menu():
             clean_intcomex()
             upload_disti()
         elif choice == 11:
-            print("elegiste 11 chupalo entonce xD")
+            clean_ingram()
+            upload_disti()
+        elif choice == 12:
+            clean_nexsys()
+            upload_disti()
         else:
             print("Favor ingresar un número")
         choice = int(input("Si quieres salir presiona 0 o selecciona otra opción: "))

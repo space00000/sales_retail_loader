@@ -61,7 +61,12 @@ def clean_intcomex():
 
     df = df[df['sku'].notna()]
 
-    df = df[['date','importer_name','sku','sell_out_units','sell_out_value','buyer_code']]
+    df = df[['date',
+            'importer_name',
+            'sku',
+            'sell_out_units',
+            'sell_out_value',
+            'buyer_code']]
 
     #Stock
 
@@ -86,7 +91,11 @@ def clean_intcomex():
 
     df1['stock_value'] = df1['stock_units'] * df1['stock_cost']
 
-    df1 = df1[['date','importer_name','sku','stock_units','stock_value']]
+    df1 = df1[['date',
+                'importer_name',
+                'sku',
+                'stock_units',
+                'stock_value']]
 
     index_names = df1[ (df1['stock_units'] == 0) & (df1['stock_value'] == 0)].index
     df1.drop(index_names, inplace= True)
@@ -98,6 +107,143 @@ def clean_intcomex():
 
     global df_disti_sales
 
+    df = pd.merge(df,df_importer[['importer_name','importer_id']],left_on='importer_name', right_on='importer_name', how='inner')
+
+    df1 = pd.merge(df1,df_importer[['importer_name','importer_id']],left_on='importer_name', right_on='importer_name', how='inner')
+
+    df_disti_sales = df
+
+    df_disti_stock = df1
+
+
+def clean_ingram():
+
+    #Venta
+    ingram_sales = pd.read_excel(input_ingram)
+
+    df = pd.DataFrame(ingram_sales)
+
+    df = df.rename(columns={'Sku':'sku',
+                        'Invoice Date':'date',
+                        'Quantity Shipped':'sell_out_units',
+                        'Sale (USD)':'sell_out_value',
+                        'TaxExemptID':'buyer_code'})
+
+    df['importer_name'] = 'Ingram'
+
+    df = df[['date',
+        'importer_name',
+        'sku',
+        'sell_out_units',
+        'sell_out_value',
+        'buyer_code']]
+
+        #Stock
+
+    ingram_stock = pd.read_excel(input_ingram_stock)
+
+    df1 = pd.DataFrame(ingram_stock)
+
+    df1 = df1.rename(columns={'AVAIL':'stock_units',
+                                'SKU':'sku'})
+
+    #Domingo
+
+    day_s = df['date'].iloc[0].strftime("%d-%m-%Y")
+    dt1 = dt.strptime(day_s, '%d-%m-%Y')
+    start = dt1 - timedelta(days=dt1.weekday())
+    end_week = start + timedelta(days=6)
+
+    df1['date'] = end_week
+
+    df1['importer_name'] = 'Ingram'
+
+    df1['stock_value'] = 0
+
+    df1 = df1[['date',
+                'importer_name',
+                'sku',
+                'stock_units',
+                'stock_value']]
+
+    df1['date'] = pd.to_datetime(df1['date']).dt.date
+
+    df['sku'] = df['sku'].apply(lambda x: str(x))
+    df1['sku'] = df1['sku'].apply(lambda x: str(x))
+
+    global df_disti_sales
+    global df_disti_stock
+
+    df = pd.merge(df,df_importer[['importer_name','importer_id']],left_on='importer_name', right_on='importer_name', how='inner')
+
+    df1 = pd.merge(df1,df_importer[['importer_name','importer_id']],left_on='importer_name', right_on='importer_name', how='inner')
+
+    df_disti_sales = df
+
+    df_disti_stock = df1
+
+
+def clean_nexsys():
+
+    #Ventas
+
+    nexsys_sales = pd.read_excel(input_nexsys)
+
+    df = pd.DataFrame(nexsys_sales)
+
+    df = df.rename(columns={'Date':'date',
+                            'Qty':'sell_out_units',
+                            'Revenue':'sell_out_value',
+                            'TAX-ID':'buyer_code',
+                            'P#':'sku'})
+
+    df['importer_name'] = 'Nexsys'
+
+    df = df[df['sku'].notna()]
+
+    df = df[['date',
+            'importer_name',
+            'sku',
+            'sell_out_units',
+            'sell_out_value',
+            'buyer_code']]
+
+    #stock
+
+    nexsys_stock = pd.read_excel(input_nexsys, sheet_name="Inventory")
+
+    df1 = pd.DataFrame(nexsys_stock)
+
+    df1 = df1.rename(columns={'On-Hand':'stock_units',
+                                'P#':'sku'})
+
+    #Domingo
+
+    day_s = df['date'].iloc[0].strftime("%d-%m-%Y")
+    dt1 = dt.strptime(day_s, '%d-%m-%Y')
+    start = dt1 - timedelta(days=dt1.weekday())
+    end_week = start + timedelta(days=6)
+
+    df1['date'] = end_week
+
+    df1['importer_name'] = 'Nexsys'
+
+    df1['stock_value'] = 0
+
+    df1 = df1[['date',
+                'importer_name',
+                'sku',
+                'stock_units',
+                'stock_value']]
+
+    df['sku'] = df['sku'].apply(lambda x: str(x))
+    df1['sku'] = df1['sku'].apply(lambda x: str(x))
+    df['buyer_code'] = df['buyer_code'].apply(lambda x: str(x)) 
+    
+    global df_disti_stock
+
+    global df_disti_sales
+    
     df = pd.merge(df,df_importer[['importer_name','importer_id']],left_on='importer_name', right_on='importer_name', how='inner')
 
     df1 = pd.merge(df1,df_importer[['importer_name','importer_id']],left_on='importer_name', right_on='importer_name', how='inner')
